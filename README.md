@@ -13,7 +13,7 @@ id_to_npc = ClassicNPCTables:getIdToNPCTableByLocale(localeCode)
 npc_to_id = ClassicNPCTables:getNPCToIdTableByLocale(localeCode)
 ```
 
-### Publish
+## Publish
 When you publish your addon with this plugin-addon, you simply pack it into a .zip file when you upload it to CurseForge.
 
 For example:
