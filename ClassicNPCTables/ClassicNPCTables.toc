@@ -1,0 +1,6 @@
+## Interface: 11404
+## Title: ClassicNPCTables
+## Notes: You can get the classic NPC name table by locale 
+## Version: 1.0.0
+## OptionalDeps: ClassicNPCTables_en, ClassicNPCTables_ko, ClassicNPCTables_cn, ClassicNPCTables_fr, ClassicNPCTables_de, ClassicNPCTables_pt, ClassicNPCTables_it, ClassicNPCTables_es, ClassicNPCTables_ru
+ClassicNPCTables.lua

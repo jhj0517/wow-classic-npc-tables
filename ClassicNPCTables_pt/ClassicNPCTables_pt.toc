@@ -1,0 +1,7 @@
+## Interface: 11404
+## Title: ClassicNPCTables_pt
+## Version: 1.0.0
+## Notes: Portuguese classic NPC name table
+## LoadOnDemand: 1
+id_to_npc_classic_pt.lua
+npc_to_id_classic_pt.lua
