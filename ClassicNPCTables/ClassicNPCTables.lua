@@ -18,7 +18,8 @@ local localeToAddOns = {
 }
 
 function ClassicNPCTables:loadDataForLocale(localeCode)
-    local addonName = localeToAddOns[localeCode]
+    local addonName = localeToAddOns[localeCode] or localeToAddOns["default"]
+
     if not IsAddOnLoaded(addonName) then
         local loaded, reason = LoadAddOn(addonName)
         if not loaded then
@@ -26,13 +27,14 @@ function ClassicNPCTables:loadDataForLocale(localeCode)
             return false
         end
     end
+
     return true
 end
 
 function ClassicNPCTables:getIdToNPCTableByLocale(localeCode)
-    if not ClassicNPCTables.data[localeCode] then
-        if not self:loadDataForLocale(localeCode) then return {} end
+    ClassicNPCTables.data[localeCode] = ClassicNPCTables.data[localeCode] or {}
 
+    if not ClassicNPCTables.data[localeCode].id_to_npc then
         local shortLocale = string.sub(localeCode, 1, 2)
         if localeCode == "zhCN" or localeCode == "zhTW" then
             shortLocale = "cn"
@@ -43,9 +45,9 @@ function ClassicNPCTables:getIdToNPCTableByLocale(localeCode)
 end
 
 function ClassicNPCTables:getNPCToIdTableByLocale(localeCode)
-    if not ClassicNPCTables.data[localeCode] then
-        if not self:loadDataForLocale(localeCode) then return {} end
+    ClassicNPCTables.data[localeCode] = ClassicNPCTables.data[localeCode] or {}
 
+    if not ClassicNPCTables.data[localeCode].npc_to_id then
         local shortLocale = string.sub(localeCode, 1, 2)
         if localeCode == "zhCN" or localeCode == "zhTW" then
             shortLocale = "cn"
