@@ -1,7 +1,0 @@
-## Interface: 11404
-## Title: ClassicNPCTables_ru
-## Version: 1.0.0
-## Notes: Russian classic NPC name table
-## LoadOnDemand: 1
-id_to_npc_classic_ru.lua
-npc_to_id_classic_ru.lua

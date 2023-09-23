@@ -1,7 +1,0 @@
-## Interface: 11404
-## Title: ClassicNPCTables_cn
-## Version: 1.0.0
-## Notes: Chinese classic NPC name table
-## LoadOnDemand: 1
-id_to_npc_classic_cn.lua
-npc_to_id_classic_cn.lua
