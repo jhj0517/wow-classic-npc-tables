@@ -1,33 +1,44 @@
 import json
 import asyncio
 import aiohttp
+from aiohttp import ClientTimeout
 from tqdm.asyncio import tqdm_asyncio
 from urllib.parse import urlparse, unquote
 
 BASE_URL = "https://www.wowhead.com/classic/"
-# OTHER_LANGS = ["de", "cn", "es", "ko", "pt", "ru", "fr"]
-OTHER_LANGS = ["ko"]
+OTHER_LANGS = ["de", "cn", "es", "ko", "pt", "ru", "fr"]
+
 
 class Scraper:
     def __init__(self):
-        self.session = None
-        self.max_sessions = 100
+        self.client = None
+        self.max_sessions = 50
         self.semaphore = asyncio.Semaphore(self.max_sessions)
+        self.timeout_for_session = ClientTimeout(total=10)
 
     async def start(self):
-        self.session = await aiohttp.ClientSession().__aenter__()
+        connector = aiohttp.TCPConnector(limit=self.max_sessions)
+        self.client = await aiohttp.ClientSession(connector=connector).__aenter__()
 
     async def scrape_npc_name(self, url):
         async with self.semaphore:
-            response = await self.session.get(url, allow_redirects=True)
-            parsed_url = urlparse(response.url.name)
-            path = unquote(parsed_url.path)
-
-            parts = path.split('/')
-            npc_name = parts[-1]
-
-            npc_name = npc_name.replace('-', ' ')
-            return npc_name
+            try:
+                async with self.client.get(url, timeout=self.timeout_for_session) as response:
+                    if response.status == 200:
+                        parsed_url = urlparse(response.url.name)
+                        path = unquote(parsed_url.path)
+                        parts = path.split('/')
+                        npc_name = parts[-1].replace('-', ' ')
+                        return npc_name
+                    else:
+                        print(f"Non-200 HTTP status code: {response.status} for URL: {url}")
+                        return ""
+            except asyncio.TimeoutError:
+                print(f"Request timed out for URL: {url}")
+                return ""
+            except Exception as e:
+                print(f"An error occurred: {str(e)} for URL: {url}")
+                return ""
 
     @staticmethod
     def table_to_dict():
@@ -50,8 +61,9 @@ class Scraper:
         return npc_dict
 
     async def close(self):
-        if self.session is not None:
-            await self.session.__aexit__(None, None, None)
+        if self.client:
+            await self.client.close()
+            self.client = None
 
 
 async def main():
@@ -76,12 +88,12 @@ async def main():
         for (id, name), localized_name in zip(en_table.items(), results):
             localized_dict[id] = localized_name
 
-        with open(f"./id_to_npc_{lang}.json", 'w') as json_file:
-            json.dump(localized_dict, json_file)
+        with open(f"./id_to_npc_{lang}.json", 'w', encoding="utf-8") as json_file:
+            json.dump(localized_dict, json_file, ensure_ascii=False)
             print(f"./id_to_npc_{lang}.json file is done!")
 
     await scraper.close()
 
+
 if __name__ == "__main__":
     asyncio.run(main())
-
