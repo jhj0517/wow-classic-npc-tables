@@ -19,8 +19,8 @@ class Scraper:
         parts = path.split('/')
         npc_name = parts[-1]
 
-        npc_name.replace('-', ' ')
-        return npc_name.replace('-', ' ')
+        npc_name = npc_name.replace('-', ' ')
+        return npc_name
 
     @staticmethod
     def table_to_dict():
