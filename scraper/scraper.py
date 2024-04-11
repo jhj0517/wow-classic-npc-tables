@@ -8,6 +8,9 @@ from selenium.webdriver.support import expected_conditions as EC
 import json
 from tqdm import tqdm
 
+import requests
+from urllib.parse import urlparse, unquote
+
 BASE_URL = "https://www.wowhead.com/classic/"
 OTHER_LANGS = ["de", "cn", "es", "ko", "pt", "ru", "fr"]
 
@@ -35,6 +38,19 @@ class Scraper:
 
         text = element.text.split('\n')[0]
         return text
+
+    @staticmethod
+    def scrape_npc_name_with_request(url: str):
+        response = requests.get(url, allow_redirects=True)
+
+        parsed_url = urlparse(response.url)
+        path = unquote(parsed_url.path)
+
+        parts = path.split('/')
+        npc_name = parts[-1]
+
+        npc_name.replace('-', ' ')
+        return npc_name.replace('-', ' ')
 
     def quit(self):
         self.driver.quit()
@@ -73,8 +89,9 @@ if __name__ == "__main__":
         localized_dict = {}
         for id, name in tqdm(en_table.items(), desc="Scraping..."):
             npc_url = locale_url + f"npc={id}"
-            localized_name = scraper.scrape_npc_name_with_selenium(npc_url)
+            localized_name = scraper.scrape_npc_name_with_request(npc_url)
             localized_dict[id] = localized_name
+            print(f"{id}: {name} => {localized_name}")
 
         with open(f"./id_to_npc_{lang}.json", 'w') as json_file:
             json.dump(localized_dict, json_file)
