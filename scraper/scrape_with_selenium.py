@@ -28,7 +28,7 @@ class Scraper:
 
     def scrape_npc_name(self, url: str):
         self.driver.get(url)
-        # wait until content is loaded
+        # wait until the NPC name is loaded in the page
         element = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "heading-size-1"))
         )
