@@ -12,7 +12,7 @@ OTHER_LANGS = ["de", "cn", "es", "ko", "pt", "ru", "fr"]
 class Scraper:
     def __init__(self):
         self.client = None
-        self.max_sessions = 9000
+        self.max_sessions = 100
         self.semaphore = asyncio.Semaphore(self.max_sessions)
         self.timeout_for_session = ClientTimeout(total=10)
 
