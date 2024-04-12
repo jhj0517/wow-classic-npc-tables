@@ -78,7 +78,6 @@ if __name__ == "__main__":
 
         with open(f"./id_to_npc_{lang}.json", 'w') as json_file:
             json.dump(localized_dict, json_file)
-
-        print(f"./id_to_npc_{lang}.json file is done!")
+            print(f"./id_to_npc_{lang}.json file is done!")
 
     scraper.quit()

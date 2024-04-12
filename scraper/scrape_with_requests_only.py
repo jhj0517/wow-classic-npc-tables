@@ -15,10 +15,9 @@ class Scraper:
 
         parsed_url = urlparse(response.url)
         path = unquote(parsed_url.path)
-
         parts = path.split('/')
-        npc_name = parts[-1]
 
+        npc_name = parts[-1]
         npc_name = npc_name.replace('-', ' ')
         return npc_name
 
@@ -60,3 +59,4 @@ if __name__ == "__main__":
 
         with open(f"./id_to_npc_{lang}.json", 'w') as json_file:
             json.dump(localized_dict, json_file)
+            print(f"./id_to_npc_{lang}.json file is done!")
