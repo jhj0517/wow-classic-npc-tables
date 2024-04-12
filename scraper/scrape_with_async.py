@@ -12,7 +12,7 @@ OTHER_LANGS = ["de", "cn", "es", "ko", "pt", "ru", "fr"]
 class Scraper:
     def __init__(self):
         self.client = None
-        self.max_sessions = 50
+        self.max_sessions = 9000
         self.semaphore = asyncio.Semaphore(self.max_sessions)
         self.timeout_for_session = ClientTimeout(total=10)
 
@@ -31,13 +31,13 @@ class Scraper:
                         npc_name = parts[-1].replace('-', ' ')
                         return npc_name
                     else:
-                        print(f"Non-200 HTTP status code: {response.status} for URL: {url}")
+                        print(f"Non-200 status code: {response.status} URL: {url}")
                         return ""
             except asyncio.TimeoutError:
-                print(f"Request timed out for URL: {url}")
+                print(f"Timed out : {url}")
                 return ""
             except Exception as e:
-                print(f"An error occurred: {str(e)} for URL: {url}")
+                print(f"Error occurred: {str(e)} URL: {url}")
                 return ""
 
     @staticmethod
