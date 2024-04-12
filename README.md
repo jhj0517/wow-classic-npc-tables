@@ -41,6 +41,6 @@ npc_to_id = ClassicNPCTables:getDataByLocale(localeCode, "npc_to_id")
 
 ### Table Loading Time
 
-These all tables takes `0.000125`secs to load all those tables as I tested on my PC, which is no big deal at all.  
+These all tables takes `0.000125`secs to load as I tested on my PC, which is no big deal at all.  
 Of course, it would be different from PC to PC, but I think loading tables of this size is no big deal.
 
