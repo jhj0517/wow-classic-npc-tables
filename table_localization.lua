@@ -62,8 +62,8 @@ function ClassicNPCTables:getDataByLocale(localeCode, dataType)
     return localeData[dataType]
 end
 
--- Use it like this in your main addon
 
+-- Use it like this in your main addon
 -- localeCode = GetLocale()
--- id_to_npc = ClassicNPCTables:getDataByLocale(localeCode, "id_to_npc")
--- npc_to_id = ClassicNPCTables:getDataByLocale(localeCode, "npc_to_id")
+-- id_to_npc_table = ClassicNPCTables:getDataByLocale(localeCode, "id_to_npc")
+-- npc_to_id_table = ClassicNPCTables:getDataByLocale(localeCode, "npc_to_id")
